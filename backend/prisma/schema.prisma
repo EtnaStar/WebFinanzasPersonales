@@ -1,0 +1,36 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String       @id @default(uuid())
+  email        String       @unique
+  passwordHash String
+  nombre       String?
+  meta         String?
+  createdAt    DateTime     @default(now())
+  movimientos  Movimiento[]
+}
+
+model Movimiento {
+  id          String         @id @default(uuid())
+  userId      String
+  user        User           @relation(fields: [userId], references: [id])
+  fecha       DateTime
+  tipo        TipoMovimiento
+  categoria   String
+  monto       Decimal        @db.Decimal(10, 2)
+  descripcion String?
+  createdAt   DateTime       @default(now())
+}
+
+enum TipoMovimiento {
+  ingreso
+  gasto
+  pago_deuda
+}

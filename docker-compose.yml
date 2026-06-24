@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: copiloto_db
+    environment:
+      POSTGRES_USER: copiloto
+      POSTGRES_PASSWORD: copiloto123
+      POSTGRES_DB: copiloto_financiero
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
